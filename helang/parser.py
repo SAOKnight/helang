@@ -25,7 +25,7 @@ class Parser:
         return token
 
     def parse(self) -> AST:
-        root_parsers = [self._root_parse_u8_set, self._root_parse_var_def, self._root_parse_expr]
+        root_parsers = [self._root_parse_print, self._root_parse_u8_set, self._root_parse_var_def, self._root_parse_expr]
         asts = []
         while self._pos < len(self._tokens):
             for parser in root_parsers:
@@ -45,6 +45,11 @@ class Parser:
         self._expect(TokenKind.ASSIGN)
         val = self._root_parse_expr()
         return VarDefAST(var_ident.content, val)
+
+    def _root_parse_print(self) -> AST:
+        self._expect(TokenKind.PRINT)
+        expr = self._root_parse_expr()
+        return PrintAST(expr)
 
     def _root_parse_u8_set(self) -> U8SetAST:
         list_expr, subscript_expr = self._parse_u8_common_parts()

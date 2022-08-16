@@ -57,9 +57,10 @@ class ListAST(AST):
         self.asts = asts
 
     def evaluate(self, env: Dict[str, U8]) -> U8:
+        last = U8()
         for ast in self.asts:
-            ast.evaluate(env)
-        return U8()
+            last = ast.evaluate(env)
+        return last
 
 
 class U8SetAST(AST):
@@ -90,3 +91,13 @@ class U8GetAST(AST):
         subscripts = self._subscript.evaluate(env).value
         # Like the operation of sublist.
         return U8([lst[i] for i in range(len(lst)) if i in subscripts])
+
+
+class PrintAST(AST):
+    def __init__(self, expr: AST):
+        self._expr = expr
+
+    def evaluate(self, env: Dict[str, U8]) -> U8:
+        val = self._expr.evaluate(env)
+        print(str(val))
+        return val

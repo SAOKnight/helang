@@ -22,6 +22,11 @@ class ParserTest(unittest.TestCase):
             u8 b = a[0 | 2]
         """
 
+        # You need to prepare variable a.
+        self.print_code = """
+            print a[0 | 1]
+        """
+
     def test_parse_def(self):
         lexer = Lexer(self.def_code)
         env = dict()
@@ -38,3 +43,8 @@ class ParserTest(unittest.TestCase):
         env = {'a': U8([2, 3, 4])}
         Parser(Lexer(self.u8_get_code).lex()).parse().evaluate(env)
         self.assertEqual(env['b'].value, [2, 4])
+
+    def test_parse_print(self):
+        env = {'a': U8([2, 3, 4])}
+        printed_content = Parser(Lexer(self.print_code).lex()).parse().evaluate(env)
+        self.assertEqual(printed_content.value, [2, 3])
