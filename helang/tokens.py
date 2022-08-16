@@ -34,8 +34,8 @@ class TokenKind(enum.Enum):
     LT = 15
     # Keywords
     KEYWORD = 16
-    # Types
-    TYPE = 17
+    # Saint He's U8
+    U8 = 17
 
 
 SINGLE_CHAR_TOKEN_KINDS = {
@@ -51,10 +51,6 @@ SINGLE_CHAR_TOKEN_KINDS = {
     '=': TokenKind.ASSIGN,
     '<': TokenKind.LT,
     '-': TokenKind.MINUS,
-}
-
-TYPES = {
-    'u8', 'void'
 }
 
 KEYWORDS = {
