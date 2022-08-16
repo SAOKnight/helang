@@ -77,7 +77,8 @@ class U8SetAST(AST):
         if len(val) == 1:
             val = val[0]
         for i in subscripts:
-            lst[i] = val
+            # Saint He likes arrays whose subscript start from 1.
+            lst[i-1] = val
         return U8()
 
 
@@ -90,7 +91,8 @@ class U8GetAST(AST):
         lst = self._list.evaluate(env).value
         subscripts = self._subscript.evaluate(env).value
         # Like the operation of sublist.
-        return U8([lst[i] for i in range(len(lst)) if i in subscripts])
+        # And Saint He likes arrays whose subscript start from 1.
+        return U8([lst[i-1] for i in range(1, len(lst) + 1) if i in subscripts])
 
 
 class PrintAST(AST):

@@ -14,17 +14,17 @@ class ParserTest(unittest.TestCase):
 
         self.u8_set_code = """
             u8 a = 1 | 2 | 3
-            a[0 | 2] = 12
+            a[1 | 3] = 12
         """
 
-        # You need to prepare variable a.
+        # You need to provide variable a.
         self.u8_get_code = """
-            u8 b = a[0 | 2]
+            u8 b = a[1 | 3]
         """
 
-        # You need to prepare variable a.
+        # You need to provide variable a.
         self.print_code = """
-            print a[0 | 1]
+            print a[1 | 2]
         """
 
     def test_parse_def(self):

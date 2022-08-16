@@ -5,7 +5,7 @@ from helang.he_ast import *
 
 class TestAST(unittest.TestCase):
     def setUp(self) -> None:
-        self.env = {'a': U8([1, 2, 3, 4]), 'b': U8([0, 2]), 'c': U8([12])}
+        self.env = {'a': U8([1, 2, 3, 4]), 'b': U8([1, 3]), 'c': U8([12])}
         self.a = VarExprAST('a')
         self.b = VarExprAST('b')
         self.c = VarExprAST('c')
