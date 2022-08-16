@@ -8,6 +8,7 @@ class LexerTester(unittest.TestCase):
     def setUp(self) -> None:
         self.code = """
           u8 a = 1 | 2
+          // Comment for single line.
         """
 
     def test_lex(self):
