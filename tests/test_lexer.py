@@ -17,7 +17,7 @@ class LexerTester(unittest.TestCase):
         expected = [
             Token('for', TokenKind.KEYWORD),
             Token('(', TokenKind.LP),
-            Token('u8', TokenKind.TYPE),
+            Token('u8', TokenKind.U8),
             Token('i', TokenKind.IDENT),
             Token('=', TokenKind.ASSIGN),
             Token('0', TokenKind.NUMBER),

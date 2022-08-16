@@ -2,7 +2,7 @@ import enum
 import re
 
 from typing import *
-from helang.tokens import Token, TokenKind, SINGLE_CHAR_TOKEN_KINDS, KEYWORDS, TYPES
+from helang.tokens import Token, TokenKind, SINGLE_CHAR_TOKEN_KINDS, KEYWORDS
 from helang.enum_method import Methods
 from helang.exceptions import BadTokenException
 
@@ -82,8 +82,8 @@ class Lexer:
             # Current character is not identifier, changing state to WAIT.
             if self._cache in KEYWORDS:
                 tokens.append(Token(self._cache, TokenKind.KEYWORD))
-            elif self._cache in TYPES:
-                tokens.append(Token(self._cache, TokenKind.TYPE))
+            elif self._cache == 'u8':
+                tokens.append(Token(self._cache, TokenKind.U8))
             else:
                 tokens.append(Token(self._cache, TokenKind.IDENT))
             self._state = LexerState.WAIT
