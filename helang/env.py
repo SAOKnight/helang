@@ -30,6 +30,9 @@ class Env:
 
     def get(self, key: str) -> Value:
         val = self._data.get(key)
-        if val is None and self._base is not None:
-            return self._base.get(key)
+        if val is None:
+            if self._base is not None:
+                return self._base.get(key)
+            else:
+                return Value('void')
         return val
