@@ -22,7 +22,7 @@ Next-Generation **Cyber** Programming Language from Li Tang.
 u8 array = 1 | 2 | 3
 ```
 
-除此之外，本语言还借鉴了最为时髦的语言 `Lua` 索引方式，所有下标都从`1`开始。
+**Saint He** 曾说：`whichKey - 1` ，所以我们数组的下标需要从 `1` 开始。
 
 ```he
 print array[1]
