@@ -7,7 +7,7 @@ from helang.tokens import Token, TokenKind
 class LexerTester(unittest.TestCase):
     def setUp(self) -> None:
         self.code = """
-            for (u8 i = 0; i < 68; i++) {}
+          u8 a = 1 | 2
         """
 
     def test_lex(self):
@@ -15,22 +15,12 @@ class LexerTester(unittest.TestCase):
         tokens = lexer.lex()
 
         expected = [
-            Token('for', TokenKind.KEYWORD),
-            Token('(', TokenKind.LP),
             Token('u8', TokenKind.U8),
-            Token('i', TokenKind.IDENT),
+            Token('a', TokenKind.IDENT),
             Token('=', TokenKind.ASSIGN),
-            Token('0', TokenKind.NUMBER),
-            Token(';', TokenKind.SEMICOLON),
-            Token('i', TokenKind.IDENT),
-            Token('<', TokenKind.LT),
-            Token('68', TokenKind.NUMBER),
-            Token(';', TokenKind.SEMICOLON),
-            Token('i', TokenKind.IDENT),
-            Token('++', TokenKind.INCREMENT),
-            Token(')', TokenKind.RP),
-            Token('{', TokenKind.LC),
-            Token('}', TokenKind.RC)
+            Token('1', TokenKind.NUMBER),
+            Token('|', TokenKind.OR),
+            Token('2', TokenKind.NUMBER)
         ]
 
         for i in range(len(expected)):

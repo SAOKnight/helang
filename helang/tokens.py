@@ -36,6 +36,8 @@ class TokenKind(enum.Enum):
     KEYWORD = 16
     # Saint He's U8
     U8 = 17
+    # Print statement, supporting for single expression
+    PRINT = 18
 
 
 SINGLE_CHAR_TOKEN_KINDS = {
@@ -51,10 +53,6 @@ SINGLE_CHAR_TOKEN_KINDS = {
     '=': TokenKind.ASSIGN,
     '<': TokenKind.LT,
     '-': TokenKind.MINUS,
-}
-
-KEYWORDS = {
-    'if', 'else', 'for'
 }
 
 

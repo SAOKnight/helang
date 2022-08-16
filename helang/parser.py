@@ -9,20 +9,19 @@ class Parser:
         self._tokens = tokens
         self._pos = 0
 
-    def _get_token(self, offset: int, expected_kind: TokenKind, validator: Optional[Callable[[Token], bool]] = None):
-        index = self._pos + offset
-
-        if index >= len(self._tokens):
+    def _expect(self, expected_kind: TokenKind, validator: Optional[Callable[[Token], bool]] = None):
+        if self._pos >= len(self._tokens):
             raise BadStatementException('no more tokens')
 
-        token = self._tokens[index]
+        token = self._tokens[self._pos]
 
         if token.kind != expected_kind:
-            raise BadStatementException(f'expected {expected_kind} at offset {offset}, got {token.kind}')
+            raise BadStatementException(f'expected {expected_kind} at pos {self._pos}, got {token.kind}')
 
         if validator is not None and not validator(token):
-            raise BadStatementException(f'failed to pass custom validator at offset {offset}')
+            raise BadStatementException(f'failed to pass custom validator at offset {self._pos}')
 
+        self._pos += 1
         return token
 
     def parse(self) -> AST:
@@ -41,18 +40,16 @@ class Parser:
         return ListAST(asts)
 
     def _root_parse_var_def(self) -> AST:
-        self._get_token(0, TokenKind.U8)
-        var_ident = self._get_token(1, TokenKind.IDENT)
-        self._get_token(2, TokenKind.ASSIGN)
-        self._pos += 3
+        self._expect(TokenKind.U8)
+        var_ident = self._expect(TokenKind.IDENT)
+        self._expect(TokenKind.ASSIGN)
         val = self._root_parse_expr()
         return VarDefAST(var_ident.content, val)
 
     def _root_parse_u8_set(self) -> U8SetAST:
         list_expr, subscript_expr = self._parse_u8_common_parts()
-        self._get_token(0, TokenKind.RS)
-        self._get_token(1, TokenKind.ASSIGN)
-        self._pos += 2
+        self._expect(TokenKind.RS)
+        self._expect(TokenKind.ASSIGN)
         value_expr = self._root_parse_expr()
         return U8SetAST(list_expr, subscript_expr, value_expr)
 
@@ -69,39 +66,32 @@ class Parser:
         raise BadStatementException('cannot parse expressions')
 
     def _parse_empty_u8_expr(self) -> AST:
-        self._get_token(0, TokenKind.LS)
-        length = self._get_token(1, TokenKind.NUMBER)
-        self._get_token(2, TokenKind.RS)
-        self._pos += 3
+        self._expect(TokenKind.LS)
+        length = self._expect(TokenKind.NUMBER)
+        self._expect(TokenKind.RS)
         return EmptyU8InitAST(int(length.content))
 
     def _parse_or_u8_expr(self) -> OrU8InitAST:
-        first = self._get_token(0, TokenKind.NUMBER)
+        first = self._expect(TokenKind.NUMBER)
 
         try:
-            self._get_token(1, TokenKind.OR)
+            self._expect(TokenKind.OR)
         except BadStatementException:
-            # Skip current number.
-            self._pos += 1
             return OrU8InitAST(int(first.content))
 
-        self._pos += 2
         return OrU8InitAST(int(first.content), self._parse_or_u8_expr())
 
     def _parse_var_expr(self) -> VarExprAST:
-        ident = self._get_token(0, TokenKind.IDENT)
-        self._pos += 1
+        ident = self._expect(TokenKind.IDENT)
         return VarExprAST(ident.content)
 
     def _parse_u8_get(self) -> U8GetAST:
         list_expr, subscript_expr = self._parse_u8_common_parts()
-        self._get_token(0, TokenKind.RS)
-        self._pos += 1
+        self._expect(TokenKind.RS)
         return U8GetAST(list_expr, subscript_expr)
 
     def _parse_u8_common_parts(self) -> Tuple[AST, AST]:
         list_expr = self._root_parse_expr(skip_u8=True)
-        self._get_token(0, TokenKind.LS)
-        self._pos += 1
+        self._expect(TokenKind.LS)
         subscript_expr = self._root_parse_expr()
         return list_expr, subscript_expr
