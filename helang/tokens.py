@@ -32,6 +32,10 @@ class TokenKind(enum.Enum):
     ASSIGN = 14
     # Less than, <
     LT = 15
+    # Keywords
+    KEYWORD = 16
+    # Types
+    TYPE = 17
 
 
 SINGLE_CHAR_TOKEN_KINDS = {
@@ -47,6 +51,14 @@ SINGLE_CHAR_TOKEN_KINDS = {
     '=': TokenKind.ASSIGN,
     '<': TokenKind.LT,
     '-': TokenKind.MINUS,
+}
+
+TYPES = {
+    'u8', 'void'
+}
+
+KEYWORDS = {
+    'if', 'else', 'for'
 }
 
 
