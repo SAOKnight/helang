@@ -22,7 +22,8 @@ class Lexer:
     methods = Methods()
 
     def __init__(self, content: str):
-        self._content = content
+        # Add a whitespace to let the methods do some clean-up.
+        self._content = content + ' '
         self._state = LexerState.WAIT
         self._pos = 0
         self._cache = ''
