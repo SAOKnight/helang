@@ -60,3 +60,33 @@ class ListAST(AST):
         for ast in self.asts:
             ast.evaluate(env)
         return U8()
+
+
+class U8SetAST(AST):
+    def __init__(self, list_expr: AST, subscript_expr: AST, value_expr: AST):
+        self._list = list_expr
+        self._subscript = subscript_expr
+        self._value = value_expr
+
+    def evaluate(self, env: Dict[str, U8]) -> U8:
+        lst = self._list.evaluate(env).value
+        subscripts = self._subscript.evaluate(env).value
+        val = self._value.evaluate(env).value
+        # Flat single element list to the element itself.
+        if len(val) == 1:
+            val = val[0]
+        for i in subscripts:
+            lst[i] = val
+        return U8()
+
+
+class U8GetAST(AST):
+    def __init__(self, list_expr: AST, subscript_expr: AST):
+        self._list = list_expr
+        self._subscript = subscript_expr
+
+    def evaluate(self, env: Dict[str, U8]) -> U8:
+        lst = self._list.evaluate(env).value
+        subscripts = self._subscript.evaluate(env).value
+        # Like the operation of sublist.
+        return U8([lst[i] for i in range(len(lst)) if i in subscripts])
