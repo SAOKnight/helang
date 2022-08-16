@@ -66,3 +66,6 @@ class Token:
     def __init__(self, content: str, kind: TokenKind):
         self.content = content
         self.kind = kind
+
+    def __eq__(self, other):
+        return self.content == other.content and self.kind == other.kind
