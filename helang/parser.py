@@ -26,15 +26,16 @@ class Parser:
         return token
 
     def parse(self) -> AST:
-        root_parsers = [self._root_parse_expr, self._root_parse_var_def]
+        root_parsers = [self._root_parse_u8_set, self._root_parse_var_def, self._root_parse_expr]
         asts = []
         while self._pos < len(self._tokens):
             for parser in root_parsers:
+                saved_pos = self._pos
                 try:
                     asts.append(parser())
                     break
                 except BadStatementException:
-                    ...
+                    self._pos = saved_pos
             else:
                 raise BadStatementException(f'failed to parse tokens started from {self._pos}')
         return ListAST(asts)
@@ -47,13 +48,24 @@ class Parser:
         val = self._root_parse_expr()
         return VarDefAST(var_ident.content, val)
 
-    def _root_parse_expr(self) -> AST:
-        expr_parsers = [self._parse_empty_u8_expr, self._parse_or_u8_expr]
+    def _root_parse_u8_set(self) -> U8SetAST:
+        list_expr, subscript_expr = self._parse_u8_common_parts()
+        self._get_token(0, TokenKind.RS)
+        self._get_token(1, TokenKind.ASSIGN)
+        self._pos += 2
+        value_expr = self._root_parse_expr()
+        return U8SetAST(list_expr, subscript_expr, value_expr)
+
+    def _root_parse_expr(self, skip_u8=False) -> AST:
+        expr_parsers = [self._parse_empty_u8_expr, self._parse_or_u8_expr, self._parse_u8_get, self._parse_var_expr]
         for parser in expr_parsers:
+            if skip_u8 and parser == self._parse_u8_get:
+                continue
+            saved_pos = self._pos
             try:
                 return parser()
             except BadStatementException:
-                ...
+                self._pos = saved_pos
         raise BadStatementException('cannot parse expressions')
 
     def _parse_empty_u8_expr(self) -> AST:
@@ -75,3 +87,21 @@ class Parser:
 
         self._pos += 2
         return OrU8InitAST(int(first.content), self._parse_or_u8_expr())
+
+    def _parse_var_expr(self) -> VarExprAST:
+        ident = self._get_token(0, TokenKind.IDENT)
+        self._pos += 1
+        return VarExprAST(ident.content)
+
+    def _parse_u8_get(self) -> U8GetAST:
+        list_expr, subscript_expr = self._parse_u8_common_parts()
+        self._get_token(0, TokenKind.RS)
+        self._pos += 1
+        return U8GetAST(list_expr, subscript_expr)
+
+    def _parse_u8_common_parts(self) -> Tuple[AST, AST]:
+        list_expr = self._root_parse_expr(skip_u8=True)
+        self._get_token(0, TokenKind.LS)
+        self._pos += 1
+        subscript_expr = self._root_parse_expr()
+        return list_expr, subscript_expr
