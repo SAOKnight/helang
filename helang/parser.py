@@ -44,11 +44,13 @@ class Parser:
         var_ident = self._expect(TokenKind.IDENT)
         self._expect(TokenKind.ASSIGN)
         val = self._root_parse_expr()
+        self._expect(TokenKind.SEMICOLON)
         return VarDefAST(var_ident.content, val)
 
     def _root_parse_print(self) -> AST:
         self._expect(TokenKind.PRINT)
         expr = self._root_parse_expr()
+        self._expect(TokenKind.SEMICOLON)
         return PrintAST(expr)
 
     def _root_parse_u8_set(self) -> U8SetAST:
@@ -56,6 +58,7 @@ class Parser:
         self._expect(TokenKind.RS)
         self._expect(TokenKind.ASSIGN)
         value_expr = self._root_parse_expr()
+        self._expect(TokenKind.SEMICOLON)
         return U8SetAST(list_expr, subscript_expr, value_expr)
 
     def _root_parse_expr(self, skip_u8=False) -> AST:

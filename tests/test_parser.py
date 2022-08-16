@@ -8,23 +8,23 @@ from helang.u8 import U8
 class ParserTest(unittest.TestCase):
     def setUp(self) -> None:
         self.def_code = """
-            u8 list1 = 1 | 2 | 3
-            u8 list2 = [3]
+            u8 list1 = 1 | 2 | 3;
+            u8 list2 = [3];
         """
 
         self.u8_set_code = """
-            u8 a = 1 | 2 | 3
-            a[1 | 3] = 12
+            u8 a = 1 | 2 | 3;
+            a[1 | 3] = 12;
         """
 
         # You need to provide variable a.
         self.u8_get_code = """
-            u8 b = a[1 | 3]
+            u8 b = a[1 | 3];
         """
 
         # You need to provide variable a.
         self.print_code = """
-            print a[1 | 2]
+            print a[1 | 2];
         """
 
     def test_parse_def(self):
