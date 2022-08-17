@@ -67,7 +67,7 @@ print forceCon;
 
 关注永雏塔菲喵，关注永雏塔菲谢谢喵。
 
-关注[猫路NyaRu_Official](https://space.bilibili.com/697091119)谢谢喵，要吃中国的大米喵。
+关注[猫雷NyaRu_Official](https://space.bilibili.com/697091119)谢谢喵，要吃中国的大米喵。
 
 ## 附加
 
