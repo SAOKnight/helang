@@ -2,6 +2,8 @@
 
 Next-Generation **Cyber** Programming Language from Li Tang.
 
+引个流先：https://www.bilibili.com/video/BV1XW4y1h79A/
+
 ## 介绍
 
 次世代赛博编程语言，诞生于赛博理塘。
@@ -10,7 +12,7 @@ Next-Generation **Cyber** Programming Language from Li Tang.
 
 实在是太酷了，很符合我对未来生活的想象，科技并带着趣味。
 
-注：如果翻译成地球单位，本项目开发时长为308分钟，从 2022‎-8‎-‎16‎ 20:24:35 到我现在看到的 2022-8-16 01:32:11。
+注：如果翻译成地球单位，本项目开发时长为308分钟，从 2022-8-16 20:24:35 到我现在看到的 2022-8-17 01:32:11。
 
 ## 语法
 
