@@ -20,20 +20,20 @@ Next-Generation **Cyber** Programming Language from Li Tang.
 
 如你所见，我们用**bitwise or**，即`|`代替了传统数组的符号。都什么年代了还在写传统数组？
 
-```he
+```c
 u8 array = 1 | 2 | 3;
 ```
 
 **Saint He** 曾说：`whichKey - 1` ，所以我们数组的下标需要从 `1` 开始。
 
-```he
+```c
 print array[1];
 // 1
 ```
 
 为了符合最新的技术，我们同样支持多下标操作，所以你再也不用写 `for` 循环了。
 
-```he
+```c
 array[1 | 2] = 0;
 print array;
 // 0 | 0 | 3
@@ -41,13 +41,13 @@ print array;
 
 同样，我们还提供了一种根据数组长度的初始化方式，可惜这还是传统写法。比如下面的代码，可以初始化一个长度为10的数组。
 
-```he
+```c
 u8 array = [10];
 ```
 
 最后，我们结合一下，可以写出下列代码。
 
-```he
+```c
 u8 forceCon = [68];
 
 forceCon[1 | 2 | 6 | 7 | 11 | 52 | 57 | 58 | 65] = 10;
